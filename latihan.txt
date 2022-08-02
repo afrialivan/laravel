@@ -1,0 +1,127 @@
+Membuat File
+composer create-project laravel/laravel="^8.0" crud
+
+untuk mencari file = ctrl + p
+
+ctrl + shift + p = untuk menampilkan command pallate
+
+untuk membuat model = buka command pallate terus tulis artisan make model
+
+untuk membuat controller = buka command pallate terus tulis artisan make controller
+
+untuk membuat table database = php artisan migrate
+
+untuk menghapus table database = php artisan migrate:rollback
+
+untuk menghapus dan membuat table database sekaligus = php artisan migrate:fresh
+
+cara menambah data di database melalui model = 
+1. php arisan tinker
+2. pilih tabel yg mau digunakan. di sini sy memilih table user= $user new App\models\User;
+bisa juga dengan $user = new User
+3. cara mengisinya = $user->name = 'Afrial Ivan Pratama'
+cara mengisi pass = $user->password = bcrypt('123')
+4. cara save = $user->save()
+5. cara melihat isi table = $user->all()
+6. cara mencari user pertama = $user->first()
+7. cara mencari user dengan id contoh id 2= $user->find(2)
+8. cara mencari semua data dengan spesifik = $user->pluck('title')
+9. cara menampilkan semua data = Post::all()
+10. cara menampilkan data pertama = Post::first()
+11. cara menampilkan semua data secara spesifik = Post::pluck('title')
+12. cara mencari user dengan id. jika ketemu tampilkan jika tdk kasih tau errornya = $user->findOrFail(200)
+13. cara mengisi data tanpa ribet di tinker =
+Post::create([
+    'title' => 'Judul Ke Empat'
+    'exceprt' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. A debitis earum cumque, alias dolorum nostrum voluptas qui 	laboriosam molestiae dicta atque laborum quia magni. Quisquam soluta rem sequi iure atque enim possimus quos itaque sint 	quia corporis'
+    'body' => '<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A debitis earum cumque, alias dolorum nostrum voluptas qui 	laboriosam molestiae dicta atque laborum quia magni. Quisquam soluta rem sequi iure atque enim possimus quos itaque sint 	quia eum! Dolorum a dolores quod possimus.</p>'
+])
+14. cara mengupdate data = Post::find(2)->update(['title' => 'Judul Ke Tiga Berubah'])
+15. cara update data = Post::where('title','Judul Ke Dua Berubah')->update(['excerpt' => 'excerpt dua berubah'])
+16. untuk menampilkan table yg berelasi = $post-category
+17. untuk menampilkan table yg beralasi dengan nama =  $post->category->name
+
+cara membuat model = 
+1. php artisan make:model -m namamodel = php artisan make:model -m Post
+2. untuk menampilkan info = php artisan help make:model
+
+{!! $post->body !!} = untuk menampilkan data tanpa html special char
+
+cara menggunakan database seeder = php artisan db:seed
+
+cara menggunakan database seeder sekalian merefresh database = php artisan migrate:fresh --seed
+
+cara membuat file factory =
+1. menggunakan control pannel = artisan :make Factory
+2. menggunakan terminal = php artisan make:factory PostFactory
+dokumentasi faker = fakerphp.github.io 
+
+cara membuat model sekaligus = php artisan make:model Namamodel -msf
+
+untuk meringankan dan mengurangi query = with()-> .ditaro di post controller contoh =  "posts" => Post::with(['author', 'category'])->latest()->get()
+
+untuk meringankan dan mengurangi query di modelnya tulis = protected $with = ['category', 'author'];
+
+bisa juga menggunakan load = load() contoh=  'posts' => $author->post->load('category', 'author')
+
+untuk gambar = http://source.unsplash.com/1200x400/?{{ $posts[0]->category->name }}
+
+cara merubah default redirect dari middleware = 
+1. masuk ke app lalu providers lalu routeserviceprovider
+
+
+cara menggunakan laravel
+1. bikin view dulu terus
+2. bikin routenya
+3. bikin controllernya
+4. bikin model jika butuh
+
+apa itu resource = jd didlm controllernya itu sudah ada crud
+cara membuat resource controller = 
+1. php artisan make:controller namaController --resource --model=namamodelygmaudihubungkan
+2. melalui command pallate = buka command pallate terus ketik artisan make controller lalu resource lalu model
+
+cara membuat slug menjadi nilai defaul = 
+tambahkan di model yg akan digunakan =
+public function getRouteKeyName()
+    {
+     return 'slug';   
+    }
+
+cara membuat slug otomatis =
+1. composer require cviebrock/eloquent-sluggable
+2. pergi ke model yang ingin menggunakan slug ini
+3. pastekan use Cviebrock\EloquentSluggable\Sluggable;
+4. dlm classnya pastekan = use Sluggable;
+5. terus pastekan =
+public function sluggable(): array
+{
+	return [
+		'slug' => [
+			'source' => 'title'
+		]
+	]
+}
+6. pastekan di controllernya = public function chekSlug(Request $request) {
+
+    }
+7. buat tag js di view create lalu pastekan =
+const title = document.querySelector('#title');
+    const slug = document.quertySelector('#slug');
+
+    title.addEventListener('change', function() {
+     fetch('/dashboard/posts/createSlug?title=' + title.value)
+      .then(response => response.json())
+      .then(data => slug.value = data.slug)
+    });
+8. di routes web buat route = Route::get('/dashboard/posts/chekSlug', [DashboardPostController::class, 'checkSlug'])->middleware('auth');
+9. ke controller usekan use = use \Cviebrock\EloquentSluggable\Services\checkService;
+10. didalm function chekSlug tambahkan =
+$slug = SlugService::createSlug(Post::class, 'slug', $request->title);   
+
+link trix = https://github.com/basecamp/trix
+
+cara memindahkan folder gambar = pastekan code ini di file env = FILESYSTEM_DRIVE=public 
+cara menghubungkan folder storage ke folder public = php artisan storage:link
+
+cara merubah faker menjadi bhs indo = paste di env = FAKER_LOCALE=id_ID
