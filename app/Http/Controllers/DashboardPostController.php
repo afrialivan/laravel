@@ -116,7 +116,7 @@ class DashboardPostController extends Controller
         $rules = [
             'title' => 'required|max:255',
             'category_id' => 'required',
-            'body' => 'required'
+            'body' => 'required'       
         ];
 
         if($request->slug != $post->slug) {
