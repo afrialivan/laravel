@@ -20,14 +20,14 @@ use App\Http\Controllers\RegisterController;
 */
 
 Route::get('/', function () {
-    return view('Home', [
+    return view('home', [
         "title" => "Home",
         "active" => 'Home'
     ]);
 });
 
 Route::get('/about', function () {
-    return  view('About', [
+    return  view('about', [
         "title" => "About",
         "name" => "Afrial Ivan Pratama",
         "email" => "afrialivan0@gmail.com",
